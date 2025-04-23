@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <script>
+            let api_host = "http://127.0.0.1:5000";
+            let current_race_id = 0;
+            let race_time='';
+            //Get the race time and update the UI
+            function update_race_clock() {
+                fetch(api_host+"/api/race/"+current_race_id+"/duration")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById("race_clock").innerHTML =data.race_duration;	
+                });
+            }
+            //Cause the vidoe to load the next frame
+            function update_video(race_id) {
+                document.getElementById("race_video").src = api_host+"/api/race/"+race_id+"/video_feed?"+new Date().getTime();
+            }
+
+            function race_action(action, race_id) {
+                if (action=='start') {
+                    //start the race
+                    document.getElementById("race_clock").innerHTML = "00:00:00.000";
+                    current_race_id = race_id;
+                    race_timer = setInterval(update_race_clock,100);
+                } 
+                if (action=='end') {
+                    //end the race
+            
+                    window.clearInterval(race_timer);
+
+                }
+                fetch(api_host+'/api/race/'+race_id+'/'+action)
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data)
+                        update_video(race_id);
+                    })
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Race Video Stream</h1>
+        <div id="race_clock">00:00:00.000</div>
+        <img id="race_video" src="http://127.0.0.1:5000/api/race/0/video_feed" width="640" height="480">
+        <br><br>
+        <button onclick="race_action('start',1)">Start Race</button>
+        <button onclick="race_action('end',1)">End Race</button>
+    </body>
+</html>

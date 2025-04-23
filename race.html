@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Event Website</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }
+        .edit-btn {
+            background-color: #4CAF50;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+        #LiveResults table {
+            width: 80%;  /* Adjust the width to 80% of its container */
+            max-width: 600px;  /* Set a maximum width */
+            margin: 0 auto;  /* Center the table */
+            border-collapse: collapse;  /* Ensure clean borders */
+        }
+
+        #live_race_information {
+            display: flex; /* Enables flexbox */
+            justify-content: space-between; /* Distributes space between elements */
+            align-items: flex-start; /* Aligns items at the top */
+            gap: 20px; /* Adds space between elements */
+        }
+
+        #RaceVideoContainer {
+            flex: 1; /* Allows it to take up available space */
+            max-width: 50%; /* Limits width */
+        }
+
+        #LiveResults {
+            flex: 1; /* Takes up the remaining space */
+            max-width: 50%; /* Limits width */
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+        <h1>Login</h1>
+        <input type="text" id="username" placeholder="Username"><br><br>
+        <input type="password" id="password" placeholder="Password"><br><br>
+        <button class="button" id="loginButton">Login</button>
+    </div>
+
+    <!-- Main Menu Page -->
+    <div id="mainMenuPage" class="container hidden">
+        <h1>Main Menu</h1>
+        <button class="button" id="adminButton">Admin Page</button>
+        <button class="button" id="raceButton">Race Page</button>
+        <button class="button" id="resultsButton">Results Page</button>
+    </div>
+
+    <!-- Admin Page -->
+    <div id="adminPage" class="container hidden">
+        <h1>Admin Page</h1>
+        <button class="button" id="participents">Participents</button>
+        <button class="button" id="backToMainFromAdmin">Back</button>
+    </div>
+
+    <!-- Active Race Page -->
+<div id="ActiveRacePage" class="container hidden">
+    <h1>Active Race</h1>
+    <div id="live_race_information">
+    <!-- Video Stream Section -->
+        <div id="RaceVideoContainer">
+            <img id="race_video" src="/api/race/0/video_feed" width="640" height="480">
+        </div>
+
+        <!-- Live Results Table Section -->
+        <div id="LiveResults">
+            <table id="LiveResultsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Bib number</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    
+                </tbody>
+            </table>  
+        </div>
+    </div>
+    <br><br>
+    <button class="button" id="StopRace">Stop</button>
+    <button class="button" id="backToRacePage">Back</button>
+</div>
+
+
+
+
+
+    <!-- Race Page -->
+    <div id="racePage" class="container hidden">
+        <h1>Race Page</h1>
+        <select id="raceSelect">
+            <option value="race1">Race 1</option>
+            <option value="race2">Race 2</option>
+            <option value="race3">Race 3</option>
+        </select><br><br>
+        
+        
+        <button class="button" id="startRaceButton">Start Race</button>
+        
+        <button class="button" id="addRaceParticipant">Add Race Participant</button>
+        <button class="button" id="backToMainFromRace">Back</button><br>
+        <table id="raceParticipentsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Bib Number</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody >
+                
+            </tbody>
+        </table>
+
+    </div>
+    <div id="participentPage" class="container hidden">
+        <h1>Participent Page</h1>
+        <button class="button" id="newParticipent">New participent</button>
+        <button class="button" id="showParticipents">Show Participents</button>
+        <button class="button" id="backToadminFrompart">Back</button>
+    </div> 
+
+    <div id="participentShowPage" class="container hidden">
+        <h1>Show Participent Page</h1>
+        <button class="button" id="backToparticipentPage">Back</button><br>
+        <table id="participentsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody >
+                
+            </tbody>
+        </table>
+
+    </div> 
+    <!-- Results Page -->
+    <div id="resultsPage" class="container hidden">
+        <h1>Results Page</h1>
+        <button class="button" id="backToMainFromResults">Back</button>
+    </div>
+    <script src="javascript/rest_api.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="javascript/race_page.js"></script>
+   
+</body>
+</html>
